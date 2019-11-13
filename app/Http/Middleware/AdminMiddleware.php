@@ -20,12 +20,11 @@ class AdminMiddleware
         if(Auth::check()){
             $user= Auth::user();
              // echo $user->level;  
-             if($user->level==2){
-               return $next($request);  
+             if($user->level==1){
+                return redirect('/');
              }else{
-               return redirect('/');
+                return $next($request);  
              }
-            
         }else {
             return redirect('/login');
         }

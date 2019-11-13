@@ -13,19 +13,17 @@ class AdminController extends Controller
 {
 	public function __construct()
 	{
-    	// $this->middleware('admin');
+    	$this->middleware('admin');
       date_default_timezone_set('Asia/Ho_Chi_Minh');
 	}
     //
    
    public function index(){
-      if (!Auth::check()){
-         return Redirect('/home');
-      }
-      $user = Auth::user();
-      if ($user->level == 1) 
-      return Redirect('/');
-      $users = User::all();
+      // gioi han hien thi 10
+      $users = User::offset(0)->limit(11)->get();
+      // $users = User::where([],[],[])->get(); nhieu dk
+      
+      $users = User::where('phone', 'like' ,'037%')->orWhere('name', 'hihi')->get();
       return view('admin/index',['users' => $users]);
    }
 

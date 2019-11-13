@@ -49,11 +49,15 @@ class AccountController extends Controller
     	$password = $request->input('password');
 
 
-    	if(Auth::attempt(['email'=>$email,'password'=>$password,'level'=>2])){
+        if(Auth::attempt(['email'=>$email,'password'=>$password,'level'=>5])||
+            Auth::attempt(['email'=>$email,'password'=>$password,'level'=>4])||
+            Auth::attempt(['email'=>$email,'password'=>$password,'level'=>3])||
+            Auth::attempt(['email'=>$email,'password'=>$password,'level'=>2])){
     		return redirect('/admin');
     	}else if(Auth::attempt(['email'=>$email,'password'=>$password,'level'=>1])){
     		return redirect('/');
-    	}else{
+        }
+        else{
     		$errors = new MessageBag(['errorLogin' => 'Tên đăng nhập hoặc mật khẩu không chính xác']);
     		return redirect()->back()->withErrors($errors);
     	}

@@ -5,5 +5,5 @@
     pika
 @endsection
 @section('content')
-    @include('admin/modules.pi')
+    @include('admin/modules.user')
 @endsection

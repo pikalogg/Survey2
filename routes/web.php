@@ -12,6 +12,7 @@
 */
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Symfony\Component\HttpFoundation\Request;
 
 Route::get('/', 'UserController@index');
 
@@ -49,19 +50,16 @@ Route::post('/logout',function(){
 	return redirect('/');
 })->name('logout');
 
-
-Route::get('/search', [
-	'uses' =>'UserController@getSearch',
-	'as' => 'search'
-	]);
 Route::get('/comment/{id}', 'UserController@addComment')->name('comment');
-
-Route::get('/information', 'UserController@getUser');
 
 Route::get('/account', 'UserController@getAccount');
 
-Route::group(['prefix'=>'/admin'],
+Route::group(['prefix'=>'/admin', 'middleware'=> 'admin'],
 	function(){
+        Route::get('/search', function(Request $request){
+            echo $request->textsearch . '<br>';
+            echo substr(url()->current(),28);
+        });
         Route::get('/', 'AdminController@index');
         Route::get('/index', 'AdminController@index');
         Route::group(['prefix'=>'/user'],
@@ -80,3 +78,7 @@ Route::group(['prefix'=>'/admin'],
         );
     }
 );
+
+
+// test
+

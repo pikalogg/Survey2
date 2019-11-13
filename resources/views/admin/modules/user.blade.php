@@ -3,8 +3,9 @@
     <div class="card">
       <div class="card-header">
         <h4 class="card-title"> Người dùng</h4>
-        
-        <a style="margin-right: 10px;" href="">Tạo người dùng mới</a>
+        @if(Auth::user()->level==2||Auth::user()->level==5)
+          <a style="margin-right: 10px;" href="">Tạo người dùng mới</a>
+        @endif
       </div>
       <div class="card-body">
         <div class="table-responsive">
@@ -25,6 +26,7 @@
             </thead>
             <tbody>
               @foreach($users as $user)
+              @if($user->level < Auth::user()->level)
               <tr>
                 <td>
                   {{$user->name}}
@@ -36,19 +38,29 @@
                   {{$user->phone}}
                 </td>
                 <td class="text-right">
-                @if($user->level==1)
-                  <a href="">Cấp quyền admin</a>
-                @elseif($user->id == Auth::user()->id)
-
-                @else
-                  <a href="">Thu hồi quyền admin</a>
+                @if(Auth::user()->level==2)
+                  <p>NULL</p>
                 @endif
+                @if(Auth::user()->level==5)
+                  @if($user->level==1)
+                    <p style="margin-bottom: 0.4em;">Cấp quyền</p>
+                    <a href="">Thêm</a>
+                    <a href="">Sửa</a>
+                    <a href="">Xóa</a>
+                  @else
+                    <a href="">Thu hồi quyền admin</a>
+                  @endif
                   <p></p>
+                @endif  
+                @if(Auth::user()->level==3||Auth::user()->level==5)
                   <a href="">Sửa</a>
-                  <a style="margin-left: 10px;" href="/admin/user/delete/{{$user->id}}">Xóa</a>
-                    
+                @endif
+                @if(Auth::user()->level==4||Auth::user()->level==5)
+                  <a href="">Xóa</a>
+                @endif
                 </td>
               </tr>
+              @endif
               @endforeach
             </tbody>
           </table>
