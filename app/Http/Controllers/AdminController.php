@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Hash;
 use App\User;
 
 class AdminController extends Controller
@@ -20,59 +22,64 @@ class AdminController extends Controller
    
    public function index(){
       // gioi han hien thi 10
-      $users = User::offset(0)->limit(11)->get();
+      // $users = User::offset(0)->limit(11)->get();
       // $users = User::where([],[],[])->get(); nhieu dk
       
-      $users = User::where('phone', 'like' ,'037%')->orWhere('name', 'hihi')->get();
+      // $users = User::where('phone', 'like' ,'037%')->orWhere('name', 'hihi')->get();
+
+      $users = User::all();
       return view('admin/index',['users' => $users]);
    }
 
    // user
    public function User(Request $request)
    {  
+      
       $rules = [
-         'name'          => 'required',
+         'name'          => 'required|min:1',
          'password'      => 'required',
-         're_password'   => 'required',
-         'phone'         => 'required|regex:/(0)[0-9]{9}/',
+         'passwordr'   => 'required',
+         'phone'         => 'required',
          'email'         => 'required'
-      ];
-      $validator = Validator::make($request->all(),$rules);
-      if($validator->fails()) {
-            
-      }else{
-         $email = $request->input('email');
-         $password = $request->input('password');
-         $user= User::where('email', '=', $email)->get();
-         if (count($user)) {
-            return Redirect()->back();
-         }
-         if ($request->password != $request->re_password) {
-            return Redirect()->back();
-         }
-         $user = new User();
-         $user->name = $request->name;
-         $user->email=$email;
-         $user->password= Hash::make($password);
-         $user->phone= $request->phone;
-         // $user->level= 0;
+     ];
+     $messages = [
+         'email.required'    => 'Email không được để trống',
+         'password.required' => 'Mật khẩu không được để trống',
+         'name.required'     => 'Không được để trống',
+         'passwordr.required'      => 'Không được để trống',
+         'phone.required'        => 'Không được để trống',
+         'name.min'              => 'Tên chứa ít nhất 3 ký tự'
+     ];
 
-         $user->save();
+     $validator = Validator::make($request->all(),$rules,$messages);
+     if ($validator->fails()) {
+         echo "lỗi";
+     } else {$email = $request->input('email');
+      $password = $request->input('password');
+      $user= User::where('email', '=', $email)->get();
+      if (count($user)) {
+         return Redirect()->back();
       }
-      return Redirect()->back();
+      if ($request->password != $request->passwordr) {
+         return Redirect()->back();
+      }
+      $user = new User();
+      $user->name = $request->name;
+      $user->email=$email;
+      $user->password= Hash::make($password);
+      $user->phone= $request->phone;
+      // $user->level= 0;
+
+      $user->save();
+      return Redirect()->back();}
+      
       
   	}
 
    public function userInformation()
    {
-      if (!Auth::check()){
-         return Redirect('/home');
-      }
-      $user = Auth::user();
-      if ($user->level == 1) 
-      return Redirect('/');
       $users = User::all();
-      return view('admin/index',['users' => $users]);
+      return view('admin/user',['users' => $users]);
    }
 
    public function userEdit(Request $request)
@@ -81,10 +88,7 @@ class AdminController extends Controller
       if($request->name != '' && trim($request->name) != ''){
          $user->name = $request->name;
       }
-      if($request->email != '' && trim($request->email) != ''){
-         $user->email = $request->email;
-      }
-      if($request->password != '' && trim($request->password) != ''){
+      if($request->password != '' && trim($request->password) != '' && $request->password = $request->passwordr){
          $user->password = Hash::make($request->password);;
       }
       if($request->phone != '' && trim($request->phone) != ''){
@@ -94,9 +98,34 @@ class AdminController extends Controller
       return Redirect()->back();
    }
 
-   public function userDelete($id)
+   public function userDelete(Request $request)
    {
-      User::where('id', $id)->delete();
+      User::where('id', $request->id)->delete();
+      return Redirect()->back();
+   }
+
+   public function userUp2($id){
+      $user = User::find($id);
+      $user->level = 2;
+      $user->save();
+      return Redirect()->back();
+   }
+   public function userUp3($id){
+      $user = User::find($id);
+      $user->level = 3;
+      $user->save();
+      return Redirect()->back();
+   }
+   public function userUp4($id){
+      $user = User::find($id);
+      $user->level = 4;
+      $user->save();
+      return Redirect()->back();
+   }
+   public function userDown($id){
+      $user = User::find($id);
+      $user->level = 1;
+      $user->save();
       return Redirect()->back();
    }
 

@@ -58,24 +58,27 @@ Route::group(['prefix'=>'/admin', 'middleware'=> 'admin'],
 	function(){
         Route::get('/search', function(Request $request){
             echo $request->textsearch . '<br>';
-            echo substr(url()->current(),28);
+            echo $request->href;
         });
         Route::get('/', 'AdminController@index');
         Route::get('/index', 'AdminController@index');
         Route::group(['prefix'=>'/user'],
             function(){
-                Route::get('/delete/{id}', 'AdminController@userDelete');
-                Route::post('/edit', 'AdminController@userEdit');
-                Route::post('/', 'AdminController@user');
-            }
-        );
-        Route::group(['prefix'=>'information'],
-            function(){
-                Route::get('/user', 'AdminController@userInformation');
-
+                Route::get('/delete', 'AdminController@userDelete');
+                Route::get('/edit', 'AdminController@userEdit');
+                Route::get('/add', 'AdminController@user');
+                Route::get('/up2/{id}', 'AdminController@userUp2');
+                Route::get('/up3/{id}', 'AdminController@userUp3');
+                Route::get('/up4/{id}', 'AdminController@userUp4');
+                Route::get('/down/{id}', 'AdminController@userDown');
 
             }
         );
+        //information
+        Route::get('/user', 'AdminController@userInformation');
+        Route::get('/topic', 'AdminController@topicInformation');
+        Route::get('/repondent', 'AdminController@repondentInformation');
+        Route::get('/notification', 'AdminController@notifiInformation');
     }
 );
 

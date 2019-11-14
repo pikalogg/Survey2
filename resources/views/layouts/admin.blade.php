@@ -31,19 +31,19 @@
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
           <li class="{{$bt1 ?? ''}}">
-            <a href="{{url('/admin')}}">
+            <a href="{{url('/admin/user')}}">
               <i class="now-ui-icons users_single-02"></i>
               <p>Người dùng</p>
             </a>
           </li>
           <li class="{{$bt2 ?? ''}}">
-           <a href="./tables.html">
+           <a href="{{url('/admin/topic')}}">
               <i class="now-ui-icons location_map-big"></i>
               <p>Biểu mẫu</p>
             </a>
           </li>
           <li class="{{$bt3 ?? ''}}">
-            <a href="./map.html">
+            <a href="{{url('/admin/repondent')}}">
               <i class="now-ui-icons design_bullet-list-67"></i>
               <p>Câu trả lời</p>
             </a>
@@ -55,7 +55,7 @@
             </a>
           </li>
           <li class="{{$bt5 ?? ''}}">
-            <a href="./notifications.html">
+            <a href="{{url('/admin/notification')}}">
               <i class="now-ui-icons ui-1_bell-53"></i>
               <p>Thông báo</p>
             </a>
@@ -87,15 +87,16 @@
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <form method="GET" action="/admin/search"> 
+              <input type="text" name="href" hidden value="{{url()->current()}}">
               <div class="input-group no-border">
                 <input type="text"  value="" class="form-control" name="textsearch" placeholder="Search...">
                 <div class="input-group-append">
                   <div class="input-group-text">
-                    <!-- <input type="submit" hidden> -->
                     <i class="now-ui-icons ui-1_zoom-bold"></i>
                   </div>
                 </div>
               </div>
+              <input type="submit" hidden>
             </form>
             <ul class="navbar-nav">
               <li class="nav-item">

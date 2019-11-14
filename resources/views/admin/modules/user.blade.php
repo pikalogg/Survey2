@@ -1,11 +1,64 @@
+
 <div class="row">
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
         <h4 class="card-title"> Người dùng</h4>
         @if(Auth::user()->level==2||Auth::user()->level==5)
-          <a style="margin-right: 10px;" href="">Tạo người dùng mới</a>
+          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createuser">Tạo người dùng mới</button>
         @endif
+        <!-- create user dialog -->
+        <div class="modal fade" id="createuser" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <form action="/admin/user/add" method="GET">
+                <div class="modal-header">
+                  <h4 class="modal-title">Tạo người dùng</h4>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                    </div>
+                        <input name="name" class="form-control" placeholder="Họ tên" type="text">
+                    </div> <!-- form-group// -->
+                    <div class="form-group input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                    </div>
+                        <input name="email" class="form-control" placeholder="Email" type="text">
+                    </div> <!-- form-group// -->
+                    <div class="form-group input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+                    </div>
+                      <input name="phone" class="form-control" placeholder="Số điện thoại" type="text">
+                    </div> 
+                    <div class="form-group input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                        <input name="password" class="form-control" placeholder="Tạo mật khẩu" type="password">
+                    </div> <!-- form-group// -->
+                    <div class="form-group input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                        <input name="passwordr" class="form-control" placeholder="Nhập lại mật khẩu" type="password">
+                    </div> <!-- form-group// -->                                      
+                    
+                  </div>
+                <div class="modal-footer">
+                  <div class="form-group">
+                      <button type="submit" class="btn btn-primary btn-block"> Tạo tài khoản  </button>
+                  </div> 
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!--end create user dialog -->
       </div>
       <div class="card-body">
         <div class="table-responsive">
@@ -27,6 +80,77 @@
             <tbody>
               @foreach($users as $user)
               @if($user->level < Auth::user()->level)
+
+                <!-- edit user dialog -->
+                <div class="modal fade" id="edituser{{$user->id}}" role="dialog">
+                  <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                      <form action="/admin/user/edit" method="GET">
+                        <input type="text" name="id" hidden value="{{$user->id}}">
+                      <div class="modal-header">
+                  <h4 class="modal-title">Sửa người dùng</h4>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                    </div>
+                        <input name="name" class="form-control" placeholder="Họ tên" type="text">
+                    </div> <!-- form-group// -->
+                    <div class="form-group input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+                    </div>
+                      <input name="phone" class="form-control" placeholder="Số điện thoại" type="text">
+                    </div> 
+                    <div class="form-group input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                        <input name="password" class="form-control" placeholder="Tạo mật khẩu" type="password">
+                    </div> <!-- form-group// -->
+                    <div class="form-group input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                        <input name="passwordr" class="form-control" placeholder="Nhập lại mật khẩu" type="password">
+                    </div> <!-- form-group// -->                                      
+                    
+                  </div>
+                <div class="modal-footer">
+                  <div class="form-group">
+                      <button type="submit" class="btn btn-primary btn-block"> Lưu lại  </button>
+                  </div> 
+                </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <!--end edit user dialog -->
+                <!-- delete user dialog -->
+                <div class="modal fade" id="deleteuser{{$user->id}}" role="dialog">
+                  <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                      <form action="/admin/user/delete" method="GET">
+                        <div class="modal-header">
+                          <h4 class="modal-title">Xóa người dùng</h4>
+                        </div>
+                        <div class="modal-body">
+                          <p>Xóa tài khoản</p>
+                          <p>{{$user->email}}</p>
+                          <input type="text" name="id" hidden value="{{$user->id}}">
+                        </div>
+                        <div class="modal-footer">
+                          <input type="submit" class="btn btn-default" value="Xóa"></input>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <!--end delete user dialog -->
+
               <tr>
                 <td>
                   {{$user->name}}
@@ -43,20 +167,21 @@
                 @endif
                 @if(Auth::user()->level==5)
                   @if($user->level==1)
-                    <p style="margin-bottom: 0.4em;">Cấp quyền</p>
-                    <a href="">Thêm</a>
-                    <a href="">Sửa</a>
-                    <a href="">Xóa</a>
+                    <p style="margin-bottom: 0.4em;">Cấp quyền cho user</p>
+                    <a href="admin/user/up2/{{$user->id}}"><p class="btn btn-info">Thêm</p></a>
+                    <a href="admin/user/up3/{{$user->id}}"><p class="btn btn-info">Sửa</p></a>
+                    <a href="admin/user/up4/{{$user->id}}"><p class="btn btn-info">Xóa</p></a>
                   @else
-                    <a href="">Thu hồi quyền admin</a>
+                    <a href="admin/user/down/{{$user->id}}"><p class="btn btn-info">Thu hồi quyền admin</p></a>
                   @endif
                   <p></p>
                 @endif  
                 @if(Auth::user()->level==3||Auth::user()->level==5)
-                  <a href="">Sửa</a>
+                  <button type="button" class="btn" data-toggle="modal" data-target="#edituser{{$user->id}}">Sửa</button>
                 @endif
                 @if(Auth::user()->level==4||Auth::user()->level==5)
-                  <a href="">Xóa</a>
+                  <button type="button" class="btn" data-toggle="modal" data-target="#deleteuser{{$user->id}}">Xóa</button>
+                  
                 @endif
                 </td>
               </tr>
