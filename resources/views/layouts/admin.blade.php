@@ -22,7 +22,7 @@
 
 <body class="">
   <div class="wrapper ">
-    <div class="sidebar" data-color="orange">  <!--Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow" -->
+    <div class="sidebar" data-color="yellow">  <!--Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow" -->
       <div class="logo">
         <a href="/home" class="simple-text logo-normal">
           Trang bắt đầu
@@ -43,7 +43,7 @@
             </a>
           </li>
           <li class="{{$bt3 ?? ''}}">
-            <a href="{{url('/admin/repondent')}}">
+            <a href="{{url('/admin/respondent')}}">
               <i class="now-ui-icons design_bullet-list-67"></i>
               <p>Câu trả lời</p>
             </a>
@@ -56,6 +56,9 @@
           </li>
           <li class="{{$bt5 ?? ''}}">
             <a href="{{url('/admin/notification')}}">
+            @if($sl??0>0)
+              <p style="font-size: 130%;font-family: none;position: absolute;left: 55%;color: brown;top: 8%;">{{$sl ?? ''}}</p>
+            @endif 
               <i class="now-ui-icons ui-1_bell-53"></i>
               <p>Thông báo</p>
             </a>

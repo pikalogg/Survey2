@@ -19,7 +19,6 @@ Route::get('/', 'UserController@index');
 Route::get('/home', function(){
 	return view('welcome');
 });
-Route::get('/checkout', 'UserController@checkout');
 
 Route::get('/login','AccountController@getLogin');
 
@@ -74,11 +73,13 @@ Route::group(['prefix'=>'/admin', 'middleware'=> 'admin'],
 
             }
         );
+        //en user
         //information
         Route::get('/user', 'AdminController@userInformation');
         Route::get('/topic', 'AdminController@topicInformation');
-        Route::get('/repondent', 'AdminController@repondentInformation');
+        Route::get('/respondent', 'AdminController@respondentInformation');
         Route::get('/notification', 'AdminController@notifiInformation');
+        //end inf
     }
 );
 

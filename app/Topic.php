@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Topic extends Model
 {
     //
-    protected $table = "topic";
+    protected $table = "topics";
 
     public function user()
     {

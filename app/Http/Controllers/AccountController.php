@@ -12,6 +12,8 @@ use App\Confirm;
 use Mail;
 use App\Mail\ConfirmUser;
 use App\Mail\RegisteredUser;
+use App\Notification;
+use Illuminate\Support\Facades\DB;
 
 class AccountController extends Controller
 {
@@ -46,15 +48,13 @@ class AccountController extends Controller
     		return redirect()->back()->withErrors($validator);
     	}
     	$email = $request->input('email');
-    	$password = $request->input('password');
-
-
+        $password = $request->input('password');
         if(Auth::attempt(['email'=>$email,'password'=>$password,'level'=>5])||
             Auth::attempt(['email'=>$email,'password'=>$password,'level'=>4])||
             Auth::attempt(['email'=>$email,'password'=>$password,'level'=>3])||
             Auth::attempt(['email'=>$email,'password'=>$password,'level'=>2])){
     		return redirect('/admin');
-    	}else if(Auth::attempt(['email'=>$email,'password'=>$password,'level'=>1])){
+        }else if(Auth::attempt(['email'=>$email,'password'=>$password,'level'=>1])){
     		return redirect('/');
         }
         else{
@@ -88,6 +88,9 @@ class AccountController extends Controller
 
         $validator = Validator::make($request->all(),$rules,$messages);
         if($validator->fails()) {
+            $notifi = new Notification();
+            $notifi->content = "Tạo thất bại " . $request->email;
+            $notifi->save();
             return redirect()->back()->withInput()->withErrors($validator);
         }else{
             $email = $request->input('email');
@@ -95,6 +98,9 @@ class AccountController extends Controller
             $user= User::where('email','=',$email)->get();
             if(count($user)) {
                 $errors = new MessageBag(['errorComfirmEmail' => 'Email đã được sử dụng']);
+                $notifi = new Notification();
+                $notifi->content = "Tạo người dùng bị trùng " . $request->email;
+                $notifi->save();
                 return redirect('/register')->withInput()->withErrors($errors);
             }
             if($request->password != $request->re_password){
@@ -106,8 +112,7 @@ class AccountController extends Controller
             $user->email=$request->email;
             $user->password= Hash::make($request->password);
             $user->phone= $request->phone;
-            // $user->level= 0;
-
+            $user->level= 0;
             $user->save();
 
             $code = new Confirm();
@@ -144,6 +149,11 @@ class AccountController extends Controller
                     $user = User::find($codeUser['user_id']);
                     $user->level = 1;
                     $user->save();
+
+                    $notifi = new Notification();
+                    $notifi->content = "Tạo thành công người dùng " . $user->email;
+                    $notifi->save();
+
                     $co= Confirm::find($codeUser['id']);
                     $co->delete();
                     return redirect('/login');
@@ -200,6 +210,7 @@ class AccountController extends Controller
         ];
         $validator = Validator::make($request->all(),$rules,$messages);
         if($validator->fails()) {
+
             return redirect()->back()->withErrors($validator);
         }else{
             if($request->password != $request->re_password){
@@ -213,6 +224,10 @@ class AccountController extends Controller
                 $user= User::find($request->id);
                 $user->password= Hash::make($request->password);
                 $user->save();
+                $notifi = new Notification();
+                $notifi->content = "lấy lại mật khẩu người dùng " . $user->email . " thành công";
+                $notifi->save();
+
                 $coC= Confirm::find($co['id']);
                 $coC->delete();
             }
@@ -221,3 +236,5 @@ class AccountController extends Controller
         return redirect('/login');
     }
 }
+
+

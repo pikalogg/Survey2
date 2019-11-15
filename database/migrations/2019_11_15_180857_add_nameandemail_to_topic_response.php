@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddStatusToNotification extends Migration
+class AddNameandemailToTopicResponse extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class AddStatusToNotification extends Migration
      */
     public function up()
     {
-        Schema::table('notification', function (Blueprint $table) {
+        Schema::table('topic_response', function (Blueprint $table) {
             //
-            $table->integer('status')->nullable()->default(0);
+
+            $table->string('name');
+            $table->string('email');
+
         });
     }
 
@@ -26,7 +29,7 @@ class AddStatusToNotification extends Migration
      */
     public function down()
     {
-        Schema::table('notification', function (Blueprint $table) {
+        Schema::table('topic_response', function (Blueprint $table) {
             //
         });
     }

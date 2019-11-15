@@ -79,8 +79,6 @@
             </thead>
             <tbody>
               @foreach($users as $user)
-              @if($user->level < Auth::user()->level)
-
                 <!-- edit user dialog -->
                 <div class="modal fade" id="edituser{{$user->id}}" role="dialog">
                   <div class="modal-dialog">
@@ -168,11 +166,11 @@
                 @if(Auth::user()->level==5)
                   @if($user->level==1)
                     <p style="margin-bottom: 0.4em;">Cấp quyền cho user</p>
-                    <a href="admin/user/up2/{{$user->id}}"><p class="btn btn-info">Thêm</p></a>
-                    <a href="admin/user/up3/{{$user->id}}"><p class="btn btn-info">Sửa</p></a>
-                    <a href="admin/user/up4/{{$user->id}}"><p class="btn btn-info">Xóa</p></a>
+                    <a href="user/up2/{{$user->id}}"><p class="btn btn-info">Thêm</p></a>
+                    <a href="user/up3/{{$user->id}}"><p class="btn btn-info">Sửa</p></a>
+                    <a href="user/up4/{{$user->id}}"><p class="btn btn-info">Xóa</p></a>
                   @else
-                    <a href="admin/user/down/{{$user->id}}"><p class="btn btn-info">Thu hồi quyền admin</p></a>
+                    <a href="user/down/{{$user->id}}"><p class="btn btn-info">Thu hồi quyền admin</p></a>
                   @endif
                   <p></p>
                 @endif  
@@ -185,10 +183,13 @@
                 @endif
                 </td>
               </tr>
-              @endif
               @endforeach
             </tbody>
           </table>
+
+          <div>
+             {{$users->links()}}
+          </div>
         </div>
       </div>
     </div>
