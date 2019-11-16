@@ -82,7 +82,8 @@ Route::group(['prefix'=>'/admin', 'middleware'=> 'admin'],
         //end inf
     }
 );
-
+Route::get('/form/{link}', 'UserController@getTopic');
+Route::post('/form/{link}', 'UserController@postTopic');
 
 // test
 

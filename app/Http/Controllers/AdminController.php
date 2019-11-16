@@ -28,8 +28,9 @@ class AdminController extends Controller
       // $users = User::offset(0)->limit(11)->get();
       // $users = User::where([],[],[])->get(); nhieu dk
       
-      // $users = User::where('phone', 'like' ,'037%')->orWhere('name', 'hihi')->get();
-      echo "admin";
+      $notifi = Notification::where('status','0')->get();
+      $sl = $notifi->count();
+      return view('admin/index',['sl'=>$sl ]);
    }
 
 
@@ -58,9 +59,14 @@ class AdminController extends Controller
       $sl = $notifi->count();
 
       $respons = DB::table('topic_response')
-      ->select('topics.name as topic', 'topics.link as link', 'topic_response.name as name', 'topic_response.email as email' )
-      ->join('topics', 'topics.id', '=' , 'topic_response.topic_id')
       ->paginate(10);
+
+      foreach($respons as $respon){
+         $topic = DB::table('topics')->where('id', $respon->topic_id)->first();
+         $respon->topic = $topic;
+         $respondent = DB::table('respondent')->where('id', $respon->respondent_id)->first();
+         $respon->respondent = $respondent;
+      }
       return view('admin/respondent',['sl'=>$sl, 'respons'=>$respons]);
    }
    public function notifiInformation()

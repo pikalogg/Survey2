@@ -32,7 +32,7 @@
                   {{$topic->name}}
                 </td>
                 <td>
-                    <a style="color: blue;" href="{{$topic->link}}">{{$topic->link}}</a>
+                    <a style="color: blue;" href="http://localhost:8000/form/{{$topic->link}}">http://localhost:8000/form/{{$topic->link}}</a>
                 </td>
                 <td>
                   {{$topic->description}}

@@ -10,10 +10,7 @@
           <table class="table" style="width: 100%;">
             <thead class=" text-primary">
               <th style="width: 25%;">
-                Người gửi
-              </th>
-              <th style="width: 25%;">
-                Email
+                Email Gửi
               </th>
               <th style="width: 25%;">
                 Tên biểu mẫu
@@ -21,21 +18,24 @@
               <th style="width: 25%;">
                 link
               </th>
+              <th style="width: 25%;">
+                Thời gian gửi
+              </th>
             </thead>
             <tbody>
             @foreach($respons as $respon)
               <tr>
                 <td>
-                  {{$respon->name}}
+                  {{$respon->respondent->email}}
                 </td>
                 <td>
-                  {{$respon->email}}
+                  {{$respon->topic->name}}
                 </td>
                 <td>
-                    {{$respon->name}}
+                  <a href="http://localhost:8000/form/{{$respon->topic->link}}">http://localhost:8000/form/{{$respon->topic->link}}</a>
                 </td>
                 <td>
-                    <a href="{{$respon->link}}">{{$respon->link}}</a>
+                    {{$respon->created_at}}
                 </td>
               </tr>
             @endforeach
