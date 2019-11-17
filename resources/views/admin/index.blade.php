@@ -1,4 +1,4 @@
-@extends('layouts.admin', ['bt1' => 'active', 'commemt' => 'Trang chủ admin'])
+@extends('layouts.admin', ['commemt' => 'Trang chủ admin'])
 
 
 @section('title')

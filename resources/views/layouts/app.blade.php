@@ -22,6 +22,53 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+    <!-- edit user dialog -->
+    <div class="modal fade" id="edituser" role="dialog">
+        <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <form action="/admin/user/edit" method="GET">
+            <input type="text" name="id" hidden value="{{Auth::user()->id}}">
+            <div class="modal-header">
+        <h4 class="modal-title">Sửa người dùng</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+        </div>
+            <input name="name" class="form-control" placeholder="Họ tên" type="text">
+        </div> <!-- form-group// -->
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+        </div>
+            <input name="phone" class="form-control" placeholder="Số điện thoại" type="text">
+        </div> 
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+        </div>
+            <input name="password" class="form-control" placeholder="Tạo mật khẩu" type="password">
+        </div> <!-- form-group// -->
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+        </div>
+            <input name="passwordr" class="form-control" placeholder="Nhập lại mật khẩu" type="password">
+        </div> <!-- form-group// -->                                      
+        
+        </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block"> Lưu lại  </button>
+        </div> 
+    </div>
+            </form>
+        </div>
+        </div>
+    </div>
+    <!--end edit user dialog -->
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -66,7 +113,12 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
+                                    @if(Auth::user()->level>1)
+                                        <a class="dropdown-item" href="/admin">Admin</a>
+                                    @endif
+                                    <a class="dropdown-item" href="" data-toggle="modal" data-target="#edituser">Tài khoản </a>
                                 </div>
+                                
                             </li>
                         @endguest
                     </ul>

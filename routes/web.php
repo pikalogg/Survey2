@@ -82,8 +82,17 @@ Route::group(['prefix'=>'/admin', 'middleware'=> 'admin'],
         //end inf
     }
 );
+
+// trả lời biểu mẫu
 Route::get('/form/{link}', 'UserController@getTopic');
 Route::post('/form/{link}', 'UserController@postTopic');
+
+// xem bài trả lời
+Route::get('/response/{respondentId}', 'UserController@getTopicResponse')->name('getResponse');
+
+Route::get('/test', function(){
+    return view('user/createtopic');
+});
 
 // test
 

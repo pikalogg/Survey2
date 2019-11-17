@@ -10,7 +10,7 @@
           <table class="table" style="width: 100%;">
             <thead class=" text-primary">
               <th style="width: 25%;">
-                Email Gửi
+                Người gửi
               </th>
               <th style="width: 25%;">
                 Tên biểu mẫu
@@ -32,7 +32,7 @@
                   {{$respon->topic->name}}
                 </td>
                 <td>
-                  <a href="http://localhost:8000/form/{{$respon->topic->link}}">http://localhost:8000/form/{{$respon->topic->link}}</a>
+                  <a href="http://localhost:8000/response/{{$respon->respondent->id}}">http://localhost:8000/response/{{$respon->respondent->id}}</a>
                 </td>
                 <td>
                     {{$respon->created_at}}

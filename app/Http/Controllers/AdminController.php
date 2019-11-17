@@ -59,6 +59,7 @@ class AdminController extends Controller
       $sl = $notifi->count();
 
       $respons = DB::table('topic_response')
+      ->orderBy('created_at', 'desc')
       ->paginate(10);
 
       foreach($respons as $respon){
@@ -137,7 +138,7 @@ class AdminController extends Controller
          $user->name = $request->name;
       }
       if($request->password != '' && trim($request->password) != '' && $request->password = $request->passwordr){
-         $user->password = Hash::make($request->password);;
+         $user->password = Hash::make($request->password);
       }
       if($request->phone != '' && trim($request->phone) != ''){
          $user->phone = $request->phone;
@@ -145,7 +146,7 @@ class AdminController extends Controller
       $user->save();
 
       $notifi = new Notification();
-      $notifi->content = "Sửa thành công người dùng " . $request->email . " bởi admin";
+      $notifi->content = "Sửa thành công người dùng " . $request->email;
       $notifi->save();
 
       return Redirect()->back();
