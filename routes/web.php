@@ -90,9 +90,9 @@ Route::post('/form/{link}', 'UserController@postTopic');
 // xem bài trả lời
 Route::get('/response/{respondentId}', 'UserController@getTopicResponse')->name('getResponse');
 
-Route::get('/test', function(){
-    return view('user/createtopic');
-});
+Route::get('/create', 'UserController@createTopic')->name('createtopic');
+Route::get('/topic/{link}', 'UserController@getCreateTopic');
+Route::post('/topic/{link}', 'UserController@postCreateTopic')->name('pcreatetopic');
 
 // test
 

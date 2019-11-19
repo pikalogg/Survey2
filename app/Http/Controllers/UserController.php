@@ -5,18 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
 use DB;
-
-
 use Validator;
 use App\Comment;
 use App\Notification;
+use App\Question;
 use App\Respondent;
 use App\Topic;
 use App\TopicResponse;
 use Illuminate\Support\Facades\Redirect;
 use App\Response;
+use App\ResponseChoice;
 
 class UserController extends Controller
 {
@@ -30,7 +29,10 @@ class UserController extends Controller
         if (!Auth::check()){
             return Redirect('/login');
         }
-        return view('user/index');
+        $topic = Topic::where('user_id', Auth::user()->id)
+        ->paginate(3);
+
+        return view('user/index', ['topics'=>$topic]);
 
     }
 
@@ -93,7 +95,7 @@ class UserController extends Controller
                 $response->save();
             }
 
-            if($questionType->name === 'multiple-choice'){
+            if($questionType->name === 'checkboxes'){
                 $response = new Response();
                 $response->topic_response_id = $topicResponse->id;
                 $response->question_id = $ques->id;
@@ -101,7 +103,7 @@ class UserController extends Controller
                 $response->save();
             }
 
-            if($questionType->name === 'checkboxes'){
+            if($questionType->name === 'multiple-choice'){
                 $responseChoices = DB::table('reponse_choice')
                 ->where('question_id', $ques->id)
                 ->get();
@@ -124,7 +126,6 @@ class UserController extends Controller
     }
 
     public function getTopicResponse($respondentId){
-        
         $respondent = DB::table('respondent')->where('id', $respondentId)->first();
         if(is_null($respondent)) return Redirect('/home');
         $topicResponse = DB::table('topic_response')->where('respondent_id',$respondent->id)->first();
@@ -153,6 +154,101 @@ class UserController extends Controller
         $topicResponse->topic = $topic;
 
         return view('user/response', ['respondent' => $respondent]);
+    }
+    public function createTopic(){
+        if (!Auth::check()){
+            return Redirect('/login');
+        }
+        $topic = new Topic();
+        $topic->name = "Mẫu không có tiêu đề";
+        $topic->description = "không có miêu tả";
+        $topic->user_id = Auth::user()->id;
+        $str = str_replace("/", "", Hash::make("topic". $topic->id));
+        $str = str_replace(".", "", $str);
+        $topic->link = str_replace("$", "", $str);
+        $topic->save();
+
+        return Redirect("/topic/$topic->link");
+
+    }
+
+    public function getCreateTopic($link){
+        if (!Auth::check()){
+            return Redirect('/login');
+        }
+        $topic = DB::table('topics')->Where('link', $link)->first();
+        if(is_null($topic)){
+            return Redirect('/');
+        }
+        if($topic->user_id !== Auth::user()->id){
+            return Redirect('/');
+        }
+        return view('user/createtopic');
+    }
+
+    public function postCreateTopic(Request $request, $link){
+        $topic = Topic::where('link', $link)->first();
+        if (!is_null($request->input('title'))){
+            $topic->name = $request->input('title');
+        }
+        if (!is_null($request->input('description'))){
+            $topic->name = $request->input('description');
+        }
+        $topic->save();
+        // số lượng câu hỏi đã tạo
+        $amountques = $request->input('amountques');
+        for($i = 1; $i <= $amountques; $i++){
+            $questionContent = $request->input("ques" . $i);
+            $questionType = $request->input("type" . $i);
+            if(!is_null($questionContent)){
+                if($questionContent === ""){
+                    $questionContent = "Câu hỏi không có tiêu đề";
+                }
+                $question = new Question();
+                $question->topic_id = $topic->id;
+                $question->content = $questionContent;
+                $question->question_type_id = $questionType;
+                $question->save();
+
+                switch ($questionType) {
+                    case '0':
+                        break;
+                    case '1':
+                        $amountanr = $request->input("amountanr" . $i);
+                        for($j = 1; $j < $amountanr; $j++){
+                            $choiceContent = $request->input("ques" . $i . "answerr" . $j);
+                            if(!is_null($choiceContent)){
+                                $responseChoice = new ResponseChoice();
+                                $responseChoice->question_id = $question->id;
+                                $responseChoice->content = $choiceContent;
+                                $responseChoice->save();
+                            }
+
+                        }
+                        break;
+                    case '2':
+                        $amountanc = $request->input("amountanc" . $i);
+                        for($j = 1; $j < $amountanc; $j++){
+                            $choiceContent = $request->input("ques" . $i . "answerc" . $j);
+                            if(!is_null($choiceContent)){
+                                $responseChoice = new ResponseChoice();
+                                $responseChoice->question_id = $question->id;
+                                $responseChoice->content = $choiceContent;
+                                $responseChoice->save();
+                            }
+
+                        }
+                        break;
+                    default:
+                        # code...
+                        break;
+                }
+            }
+        }
+
+
+        return Redirect('/'); 
+
     }
 
 }

@@ -6,16 +6,23 @@
 
 @section('css')
     <!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="nts/bootstrap4/css/bootstrap.min.css">
-	<link rel="stylesheet" href="nts/fontawesome/css/all.css">
-	<link rel="stylesheet" href="nts/css/createtopic.css">
-	<link rel="stylesheet" href="nts/owlcarousel/assets/owl.carousel.min.css">
-	<link rel="stylesheet" href="nts/owlcarousel/assets/owl.theme.default.min.css">
+	<link rel="stylesheet" href="../nts/bootstrap4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../nts/fontawesome/css/all.css">
+	<link rel="stylesheet" href="../nts/css/createtopic.css">
+	<link rel="stylesheet" href="../nts/owlcarousel/assets/owl.carousel.min.css">
+	<link rel="stylesheet" href="../nts/owlcarousel/assets/owl.theme.default.min.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" />
 
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <style>
+        @media screen and (max-width:820px){
+            .tab{
+                width: 95%;
+            }
+        }
+    </style>
 @endsection
 
 @section('body')
@@ -25,14 +32,14 @@
 @section('js')
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="nts/bootstrap4/js/jquery-3.3.1.slim.min.js"></script>
-    <script src="nts/bootstrap4/js/popper.min.js"></script>
-    <script src="nts/bootstrap4/js/bootstrap.min.js"></script>
+    <script src="../nts/bootstrap4/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="../nts/bootstrap4/js/popper.min.js"></script>
+    <script src="../nts/bootstrap4/js/bootstrap.min.js"></script>
     <!-- owl-carousel -->
     <!-- <script src="jquery.min.js"></script> -->
-    <script src="nts/owlcarousel/owl.carousel.min.js"></script>
-    <script src="nts/jquery.counterup.min.js"></script>
-    <script src="nts/jquery.waypoints.min.js"></script>
+    <script src="../nts/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../nts/jquery.counterup.min.js"></script>
+    <script src="../nts/jquery.waypoints.min.js"></script>
     <script>
         jQuery(document).ready(function($) {
             $('.counter').counterUp({
@@ -90,5 +97,5 @@
     </script>
 
 
-    <script src="nts/js/createtopic.js"></script>  
+    <script src="../nts/js/createtopic.js"></script>  
 @endsection

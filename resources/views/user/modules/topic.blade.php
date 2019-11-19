@@ -26,7 +26,7 @@
                         </div>
                     </div>
                 @endif
-                @if($question->questionType->name === 'multiple-choice')
+                @if($question->questionType->name === 'checkboxes')
                     <!-- cau hoi loai 2 -->
                     <div class="card">
                         <div class="card-header">
@@ -42,7 +42,7 @@
                         </div>
                     </div>
                 @endif
-                @if($question->questionType->name === 'checkboxes')
+                @if($question->questionType->name === 'multiple-choice')
                     <!-- cau hoi loai 3 -->
                     <div class="card">
                         <div class="card-header">

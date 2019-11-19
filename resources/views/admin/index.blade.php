@@ -10,7 +10,7 @@
             <div class="card">
                 <div style="width: 100%; height: 500px; background-color: orchid; border-radius: 5px;">
                     <div >
-                        <h1>Xin chào</h1>
+                        <h1>Chào mừng đến với trang admin</h1>
                     </div>
                 </div>
             </div>

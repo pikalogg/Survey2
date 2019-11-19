@@ -9,19 +9,19 @@
         <div class="table-responsive">
           <table class="table" style="width: 100%;">
             <thead class=" text-primary">
-              <th style="width: 20%;">
+              <th>
                 Tiêu đề
               </th>
-              <th style="width: 20%;">
+              <th>
                 Link
               </th>
-              <th style="width: 30%;">
+              <th>
                 Miêu tả
               </th>
-              <th style="width: 15%;">
+              <th>
                 Mở vào
               </th>
-              <th style="width: 15%;">
+              <th>
                 Đóng vào
               </th>
             </thead>
@@ -32,7 +32,10 @@
                   {{$topic->name}}
                 </td>
                 <td>
-                    <a style="color: blue;" href="http://localhost:8000/form/{{$topic->link}}">http://localhost:8000/form/{{$topic->link}}</a>
+                    <?php
+                        $link = substr($topic->link,0, 20) . "...";
+                    ?>
+                    <a class="link" style="color: blue;" href="/form/{{$topic->link}}">{{$link}}</a>
                 </td>
                 <td>
                   {{$topic->description}}
@@ -40,7 +43,7 @@
                 <td>
                     {{$topic->opening_time}}
                 </td>
-                <td >
+                <td>
                     {{$topic->closing_time}}
                 </td>
               </tr>

@@ -32,7 +32,7 @@
                   {{$respon->topic->name}}
                 </td>
                 <td>
-                  <a href="http://localhost:8000/response/{{$respon->respondent->id}}">http://localhost:8000/response/{{$respon->respondent->id}}</a>
+                  <a href="/response/{{$respon->respondent->id}}">http://localhost:8000/response/{{$respon->respondent->id}}</a>
                 </td>
                 <td>
                     {{$respon->created_at}}

@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 #header {
     width: 100%;
     height: 150px;
@@ -6,8 +10,59 @@
     position: fixed;
 }
 
+.add-question-span {
+    position: fixed;
+    right: 17%;
+    top: 40%;
+    width: 30px;
+    height: 30px;
+    background: #f9f9f9;
+    border-radius: 50%;
+    box-shadow: 1px 1px #988c8c;
+}
+
+.remove-ques {
+    width: 20px;
+    height: 20px;
+    font-size: 25px;
+    margin: auto;
+    float: left;
+    /* background-image: ; */
+}
+
+.ques {
+    display: flex;
+}
+
 body {
     background-color: #ede7f6;
+}
+
+.center {
+    text-align: center;
+    margin: auto;
+}
+
+.trash {
+    float: right;
+    margin-right: 10%;
+    font-size: 24px;
+}
+
+.spanc {
+    position: relative;
+    display: block;
+    float: left;
+    width: 20px;
+    height: 18px;
+    border: 2px solid #c8ccd4;
+    -webkit-tap-highlight-color: transparent;
+    margin: auto;
+    margin-right: 16px;
+}
+
+.spanr {
+    border-radius: 50%;
 }
 
 .btn-header {
@@ -80,10 +135,16 @@ textarea:focus {
     border-bottom: 2px solid #4d90fe;
 }
 
-input,
+input {
+    width: 100%;
+    margin-top: 20px;
+    background: none;
+}
+
 textarea {
     width: 100%;
-    margin-top: 30px;
+    margin-top: 35px;
+    background: none;
 }
 
 #title_input {
