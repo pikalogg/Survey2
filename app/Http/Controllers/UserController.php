@@ -30,6 +30,7 @@ class UserController extends Controller
             return Redirect('/login');
         }
         $topic = Topic::where('user_id', Auth::user()->id)
+        ->orderBy('created_at', 'desc')
         ->paginate(3);
 
         return view('user/index', ['topics'=>$topic]);
@@ -62,8 +63,7 @@ class UserController extends Controller
         if($topic==null) return Redirect('/home');
         // kiem tra loi
         if(false){
-            echo "loi tum lum";
-            return;
+            return Redirect("/mess/error");
         }
 
         // end loi
@@ -183,7 +183,28 @@ class UserController extends Controller
         if($topic->user_id !== Auth::user()->id){
             return Redirect('/');
         }
-        return view('user/createtopic');
+        if($topic->name === "Mẫu không có tiêu đề") $topic->name = "";
+        if($topic->description === "không có miêu tả") $topic->description = "";
+        $question = DB::table('questions')->where('topic_id', $topic->id)->get();
+        $topic->questions = $question;
+        foreach($question as $ques){
+            $responseChoices = DB::table('reponse_choice')
+            ->where('question_id', $ques->id)
+            ->get();
+            
+            foreach($responseChoices as $choice){
+                $count = Response::where([['question_id',$ques->id],['answer' , $choice->content]])->get()->count();
+                $choice->count = $count;
+            }
+            $ques->responseChoices = $responseChoices;
+        }
+
+        $response = TopicResponse::where('topic_id',$topic->id)->get();
+        foreach($response as $respon){
+            $respondent = Respondent::where('id', $respon->respondent_id)->first();
+            $respon->respondent = $respondent;
+        }
+        return view('user/createtopic',['respons' => $response, 'topic'=>$topic]);
     }
 
     public function postCreateTopic(Request $request, $link){
@@ -195,21 +216,41 @@ class UserController extends Controller
             $topic->name = $request->input('description');
         }
         $topic->save();
+
+        Question::where('topic_id' ,$topic->id)->delete();
+        TopicResponse::where('topic_id' ,$topic->id)->delete();
         // số lượng câu hỏi đã tạo
         $amountques = $request->input('amountques');
         for($i = 1; $i <= $amountques; $i++){
             $questionContent = $request->input("ques" . $i);
             $questionType = $request->input("type" . $i);
-            if(!is_null($questionContent)){
-                if($questionContent === ""){
+
+            if(is_null($questionContent)){
+                $mou = 0;
+                switch ($questionType) {
+                    case '0':
+                        break;
+                    case '1':
+                        $mou = $request->input("amountanr" . $i);
+                        break;
+                    case '2':
+                        $mou = $request->input("amountanc" . $i);
+                        break;
+                    default:
+                        # code...
+                        break;
+                    }
+                if($mou > 0 ){
                     $questionContent = "Câu hỏi không có tiêu đề";
                 }
+            }
+            if(!is_null($questionContent)){
                 $question = new Question();
                 $question->topic_id = $topic->id;
                 $question->content = $questionContent;
                 $question->question_type_id = $questionType;
                 $question->save();
-
+    
                 switch ($questionType) {
                     case '0':
                         break;
@@ -223,7 +264,7 @@ class UserController extends Controller
                                 $responseChoice->content = $choiceContent;
                                 $responseChoice->save();
                             }
-
+    
                         }
                         break;
                     case '2':
@@ -236,7 +277,7 @@ class UserController extends Controller
                                 $responseChoice->content = $choiceContent;
                                 $responseChoice->save();
                             }
-
+    
                         }
                         break;
                     default:
@@ -244,11 +285,12 @@ class UserController extends Controller
                         break;
                 }
             }
+            
         }
-
-
-        return Redirect('/'); 
-
+        return Redirect("/form/$link"); 
     }
-
+    public function deleteTopic($link){
+        Topic::where('link', $link)->delete();
+        return Redirect('/');
+    }
 }

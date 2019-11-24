@@ -16,16 +16,45 @@
 
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
     <style>
         @media screen and (max-width:820px){
             .tab{
                 width: 95%;
             }
         }
+        #customers {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #customers td, #customers th {
+        border: 1px solid #ddd;
+        padding: 8px;
+        }
+
+        #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+        #customers tr:hover {background-color: #ddd;}
+
+        #customers th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #4CAF50;
+        color: white;
+        }
     </style>
 @endsection
 
 @section('body')
+<!-- tao bien dem cau hoi -->
+        <script>
+            var count = 0;
+        </script>
+        
     @include('user/modules.createtopic')
 @endsection
 
@@ -97,5 +126,5 @@
     </script>
 
 
-    <script src="../nts/js/createtopic.js"></script>  
+    
 @endsection

@@ -28,9 +28,11 @@ class AdminController extends Controller
       // $users = User::offset(0)->limit(11)->get();
       // $users = User::where([],[],[])->get(); nhieu dk
       
-      $notifi = Notification::where('status','0')->get();
-      $sl = $notifi->count();
-      return view('admin/index',['sl'=>$sl ]);
+      // $notifi = Notification::where('status','0')->get();
+      // $sl = $notifi->count();
+      // return view('admin/index',['sl'=>$sl ]);
+
+      return Redirect('admin/user');
    }
 
 

@@ -17,9 +17,11 @@
             </div>
         @endforeach
 
-        <div style="position: absolute; left: 36%; bottom: 20%;">
+        <div style="position: absolute; left: 36%; bottom: 10%;">
             {{$topics->links()}}
         </div>
     </div>
 </div>
+
+
 

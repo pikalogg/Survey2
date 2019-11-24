@@ -1,4 +1,4 @@
-    var count = 0;
+    // var count = 0;
     var element = document.getElementById("listquestion");
 
     function addQuestion() {
@@ -32,11 +32,10 @@
         //col-8-text
         var node_textarea_01 = document.createElement("textarea");
 
-        node_textarea_01.id = "description_input";
-        node_textarea_01.rows = "1";
-        node_textarea_01.type = "textarea";
+        node_textarea_01.id = "questitle" + count;
+        // node_textarea_01.rows = "1";
         node_textarea_01.name = "ques" + count;
-        node_textarea_01.value = "";
+        // node_textarea_01.value = "";
         node_textarea_01.placeholder = "Câu hỏi không có tiêu đề";
 
         var node_div_ques_t = document.createElement("div");
@@ -84,6 +83,7 @@
         tp_node_1.appendChild(span_c.cloneNode());
         var _ip_c1 = node_input_c.cloneNode();
         _ip_c1.name = node_textarea_01.name + "answerc" + countC;
+        _ip_c1.id = node_textarea_01.name + "answerc" + countC;
         countC++;
         tp_node_1.appendChild(_ip_c1);
         node_div_ques_c.appendChild(tp_node_1);
@@ -92,6 +92,8 @@
         tp_node_2.appendChild(span_r.cloneNode());
         var _ip_r1 = node_input_r.cloneNode();
         _ip_r1.name = node_textarea_01.name + "answerr" + countR;
+        _ip_r1.id = node_textarea_01.name + "answerr" + countR;
+
         countR++;
         tp_node_2.appendChild(_ip_r1);
         node_div_ques_r.appendChild(tp_node_2);
@@ -139,6 +141,52 @@
 
         node_label.innerHTML = "Kiểu câu hỏi  *<";
         node_select.name = "type" + count;
+        node_select.id = "select" + count;
+        node_select.onclick = function() {
+            switch (node_select.value) {
+                case "0": // Trả lời ngắn
+                    node_span_add.innerHTML = "";
+                    try {
+                        node_div_col_8.removeChild(node_div_ques_c);
+                    } catch (e) {}
+                    try {
+                        node_div_col_8.removeChild(node_div_ques_r);
+                    } catch (e) {}
+                    try {
+                        node_div_col_8.appendChild(node_div_ques_t);
+                    } catch (e) {}
+
+                    break;
+                case "1": // Trắc nghiệm
+                    node_span_add.innerHTML = "Thêm tùy chọn";
+                    try {
+                        node_div_col_8.removeChild(node_div_ques_c);
+                    } catch (e) {}
+                    try {
+                        node_div_col_8.removeChild(node_div_ques_t);
+                    } catch (e) {}
+                    try {
+                        node_div_col_8.appendChild(node_div_ques_r);
+                    } catch (e) {}
+                    break;
+                case "2": // Trả lời ngắn
+                    node_span_add.innerHTML = "Thêm tùy chọn";
+                    try {
+                        node_div_col_8.removeChild(node_div_ques_t);
+                    } catch (e) {}
+                    try {
+                        node_div_col_8.removeChild(node_div_ques_r);
+                    } catch (e) {}
+                    try {
+                        node_div_col_8.appendChild(node_div_ques_c);
+                    } catch (e) {}
+                    break;
+                default:
+                    node_span_add.innerHTML = "";
+                    break;
+
+            }
+        }
         node_select.onchange = function() {
             switch (node_select.value) {
                 case "0": // Trả lời ngắn
@@ -207,6 +255,7 @@
                 case "1": // Trắc nghiệm
                     var temp_r = node_input_r.cloneNode();
                     temp_r.name = node_textarea_01.name + "answerr" + countR;
+                    temp_r.id = node_textarea_01.name + "answerr" + countR;
                     countR++;
                     amountanr.value = "" + countR;
                     var temp_div_ques = node_div_ques.cloneNode();
@@ -225,6 +274,7 @@
                 case "2": // hộp kiểm
                     var temp_c = node_input_c.cloneNode();
                     temp_c.name = node_textarea_01.name + "answerc" + countC;
+                    temp_c.id = node_textarea_01.name + "answerc" + countC;
                     countC++;
                     amountanc.value = "" + countC;
                     var temp_div_ques = node_div_ques.cloneNode();
@@ -245,7 +295,7 @@
 
             }
         }
-        node_span_add.className = "";
+        node_span_add.id = "add-choice" + count;
 
         node_a_02.className = "trash";
         node_a_02.onclick = function() {
@@ -283,4 +333,3 @@
 
         element.appendChild(para);
     }
-    addQuestion();

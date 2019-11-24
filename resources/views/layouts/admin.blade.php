@@ -18,11 +18,36 @@
   <link href="../assets/css/now-ui-dashboard.css?v=1.3.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
+  <style>
+    table {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table td, table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+        }
+
+        table tr:nth-child(even){background-color: #f2f2f2;}
+
+        table tr:hover {background-color: #ddd;}
+
+        table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #4CAF50;
+        color: white;
+        }
+  </style>
+
 </head>
 
 <body class="">
-  <div class="wrapper ">
-    <div class="sidebar" data-color="yellow">  <!--Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow" -->
+  <div class=" ">
+    <div class="sidebar" data-color="green">  <!--Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow" -->
       <div class="logo">
         <a href="/home" class="simple-text logo-normal">
           Trang bắt đầu

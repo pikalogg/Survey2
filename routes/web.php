@@ -16,6 +16,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 Route::get('/', 'UserController@index');
 
+
+Route::get('/mess/error', function(){
+    return view('error');
+});
+
 Route::get('/home', function(){
 	return view('welcome');
 });
@@ -93,6 +98,6 @@ Route::get('/response/{respondentId}', 'UserController@getTopicResponse')->name(
 Route::get('/create', 'UserController@createTopic')->name('createtopic');
 Route::get('/topic/{link}', 'UserController@getCreateTopic');
 Route::post('/topic/{link}', 'UserController@postCreateTopic')->name('pcreatetopic');
+Route::get('/delete/{link}', 'UserController@deleteTopic');
 
 // test
-
